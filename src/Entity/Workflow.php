@@ -9,13 +9,12 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: WorkflowRepository::class)]
 class Workflow
 {
+    public const STATE_DRAFT = 'draft';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
-    #[ORM\Column(length: 50)]
-    private ?string $state = null;
 
     #[ORM\Column(type: Types::GUID)]
     private ?string $uuid = null;
@@ -33,7 +32,10 @@ class Workflow
     private ?bool $isAttended = null;
 
     #[ORM\Column(length: 50)]
-    private ?string $subState = null;
+    private ?string $state = self::STATE_DRAFT;
+
+    #[ORM\Column(length: 50)]
+    private ?string $subState = self::STATE_DRAFT;
 
     public function getId(): ?int
     {
