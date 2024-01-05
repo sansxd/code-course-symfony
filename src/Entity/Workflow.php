@@ -32,6 +32,9 @@ class Workflow
     #[ORM\Column]
     private ?bool $isAttended = null;
 
+    #[ORM\Column(length: 50)]
+    private ?string $subState = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -105,6 +108,18 @@ class Workflow
     public function setIsAttended(bool $isAttended): static
     {
         $this->isAttended = $isAttended;
+
+        return $this;
+    }
+
+    public function getSubState(): ?string
+    {
+        return $this->subState;
+    }
+
+    public function setSubState(string $subState): static
+    {
+        $this->subState = $subState;
 
         return $this;
     }
