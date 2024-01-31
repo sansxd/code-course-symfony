@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Workflow index{% endblock %}
+
+{% block body %}
+    <h1>Workflow index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Uuid</th>
+                <th>Number</th>
+                <th>IsActive</th>
+                <th>IsClosed</th>
+                <th>IsAttended</th>
+                <th>State</th>
+                <th>SubState</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for workflow in workflows %}
+            <tr>
+                <td>{{ workflow.id }}</td>
+                <td>{{ workflow.uuid }}</td>
+                <td>{{ workflow.number }}</td>
+                <td>{{ workflow.isActive ? 'Yes' : 'No' }}</td>
+                <td>{{ workflow.isClosed ? 'Yes' : 'No' }}</td>
+                <td>{{ workflow.isAttended ? 'Yes' : 'No' }}</td>
+                <td>{{ workflow.state }}</td>
+                <td>{{ workflow.subState }}</td>
+                <td>
+                    <a href="{{ path('app_workflow_show', {'id': workflow.id}) }}">show</a>
+                    <a href="{{ path('app_workflow_edit', {'id': workflow.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_workflow_new') }}">Create new</a>
+{% endblock %}
