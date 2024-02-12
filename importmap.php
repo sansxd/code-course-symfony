@@ -27,4 +27,7 @@ return [
     '@symfony/stimulus-bundle' => [
         'path' => './vendor/symfony/stimulus-bundle/assets/dist/loader.js',
     ],
+    'tom-select' => [
+        'version' => '2.3.1',
+    ],
 ];
