@@ -4,6 +4,7 @@ namespace App\Factory;
 
 use App\Entity\Workflow;
 use App\Repository\WorkflowRepository;
+use Symfony\Component\Uid\Uuid;
 use Zenstruck\Foundry\ModelFactory;
 use Zenstruck\Foundry\Proxy;
 use Zenstruck\Foundry\RepositoryProxy;
@@ -46,6 +47,8 @@ final class WorkflowFactory extends ModelFactory
      */
     protected function getDefaults(): array
     {
+        $uuid = Uuid::v7();
+
         return [
             'isActive' => self::faker()->boolean(),
             'isAttended' => self::faker()->boolean(),
@@ -53,7 +56,7 @@ final class WorkflowFactory extends ModelFactory
             'number' => self::faker()->randomNumber(),
             'state' => self::faker()->text(50),
             'subState' => self::faker()->text(50),
-            'uuid' => self::faker()->uuid(),
+            'uuid' => $uuid,
         ];
     }
 
