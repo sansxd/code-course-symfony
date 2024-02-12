@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\WorkflowRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: WorkflowRepository::class)]
 class Workflow
@@ -15,9 +16,6 @@ class Workflow
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
-    #[ORM\Column(type: Types::GUID)]
-    private ?string $uuid = null;
 
     #[ORM\Column(type: Types::BIGINT)]
     private ?string $number = null;
@@ -37,6 +35,9 @@ class Workflow
     #[ORM\Column(length: 50)]
     private ?string $subState = self::STATE_DRAFT;
 
+    #[ORM\Column(type: 'uuid')]
+    private ?Uuid $uuid = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -50,18 +51,6 @@ class Workflow
     public function setState(string $state): static
     {
         $this->state = $state;
-
-        return $this;
-    }
-
-    public function getUuid(): ?string
-    {
-        return $this->uuid;
-    }
-
-    public function setUuid(string $uuid): static
-    {
-        $this->uuid = $uuid;
 
         return $this;
     }
@@ -122,6 +111,18 @@ class Workflow
     public function setSubState(string $subState): static
     {
         $this->subState = $subState;
+
+        return $this;
+    }
+
+    public function getUuid(): ?Uuid
+    {
+        return $this->uuid;
+    }
+
+    public function setUuid(Uuid $uuid): static
+    {
+        $this->uuid = $uuid;
 
         return $this;
     }

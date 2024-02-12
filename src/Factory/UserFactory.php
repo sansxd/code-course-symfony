@@ -4,6 +4,7 @@ namespace App\Factory;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
+use Symfony\Component\Uid\Uuid;
 use Zenstruck\Foundry\ModelFactory;
 use Zenstruck\Foundry\Proxy;
 use Zenstruck\Foundry\RepositoryProxy;
@@ -46,11 +47,13 @@ final class UserFactory extends ModelFactory
      */
     protected function getDefaults(): array
     {
+        $uuid = Uuid::v7();
         return [
             'email' => self::faker()->email(),
             'password' => self::faker()->password(),
             'username' => self::faker()->text(180),
-            'firstName' => self::faker()->firstName()
+            'firstName' => self::faker()->firstName(),
+            'uuid' => $uuid,
         ];
     }
 
