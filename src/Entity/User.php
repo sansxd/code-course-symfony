@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -36,6 +38,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'uuid')]
     private ?Uuid $uuid = null;
+
+    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: Workflow::class)]
+    private Collection $workflows;
+
+    public function __construct()
+    {
+        $this->workflows = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -139,6 +149,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUuid(Uuid $uuid): static
     {
         $this->uuid = $uuid;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Workflow>
+     */
+    public function getWorkflows(): Collection
+    {
+        return $this->workflows;
+    }
+
+    public function addWorkflow(Workflow $workflow): static
+    {
+        if (!$this->workflows->contains($workflow)) {
+            $this->workflows->add($workflow);
+            $workflow->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWorkflow(Workflow $workflow): static
+    {
+        if ($this->workflows->removeElement($workflow)) {
+            // set the owning side to null (unless already changed)
+            if ($workflow->getCreatedBy() === $this) {
+                $workflow->setCreatedBy(null);
+            }
+        }
 
         return $this;
     }
